@@ -20,15 +20,15 @@ class ItemArchetype(models.Model):
     """
     SKU = models.CharField(max_length=255)
     COMMON_NAME = models.CharField(max_length=255) # e.g. "Dell XPS"
-    MANUFACTURER = models.ForeignKey("Manufacturer", on_delete=models.CASCADE)
+    MANUFACTURER = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, null=True)
     NOTES = models.CharField(max_length=255)
 
 class TagInformation(models.Model):
     """ Information common to all Assets, but will change on each asset """
 
-    PURCHASE_DATE = models.DateField(_(""), auto_now=False, auto_now_add=False)
+    PURCHASE_DATE = models.DateField(auto_now=False, auto_now_add=False)
     PURCHASE_COST = models.DecimalField(max_digits=7, decimal_places=2)
-    ASSIGNED_USER = models.ForeignKey("EndUser", on_delete=models.SET_NULL)
+    ASSIGNED_USER = models.ForeignKey(EndUser, on_delete=models.SET_NULL, null=True)
     ASSET_TAG = models.CharField(max_length=8)
 
 class Laptop(models.Model):
@@ -38,6 +38,6 @@ class Laptop(models.Model):
     CPU_SPEED = models.DecimalField(max_digits=3, decimal_places=2) # Speed of CPU in GHZ
     RAM = models.IntegerField() # RAM in GB
     HDD = models.DecimalField(max_digits=4, decimal_places = 2) # HDD size in Terabytes
-    ARCHETYPE = models.ForeignKey("ItemArchetype", on_delete=models.CASCADE)
-    TAG = models.models.ForeignKey("TagInformation", on_delete=models.SET_NULL)
+    ARCHETYPE = models.ForeignKey(ItemArchetype, on_delete=models.CASCADE,)
+    TAG = models.ForeignKey(TagInformation, on_delete=models.CASCADE,)
     NOTES = models.CharField(max_length=255)
