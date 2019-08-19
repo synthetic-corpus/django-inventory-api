@@ -27,10 +27,10 @@ class TaggedItem(models.Model):
     """ Information common to all Assets, but will change on each asset """
     """ Is the base class for all other items. Will not create its own table """
     
-    PURCHASE_DATE = models.DateField(auto_now=False, auto_now_add=False, null=True)
-    PURCHASE_COST = models.DecimalField(max_digits=7, decimal_places=2, null=True)
+    PURCHASE_DATE = models.DateField(auto_now=False, auto_now_add=False)
+    PURCHASE_COST = models.DecimalField(max_digits=7, decimal_places=2)
     ASSIGNED_USER = models.ForeignKey(EndUser, on_delete=models.SET_NULL, null=True)
-    ASSET_TAG = models.CharField(max_length=8, null=True)
+    ASSET_TAG = models.CharField(max_length=8)
 
     class Meta:
         abstract = True
@@ -43,4 +43,4 @@ class Laptop(TaggedItem):
     RAM = models.IntegerField() # RAM in GB
     HDD = models.DecimalField(max_digits=4, decimal_places = 2) # HDD size in Terabytes
     ARCHETYPE = models.ForeignKey(ItemArchetype, on_delete=models.CASCADE,)
-    NOTES = models.CharField(max_length=255)
+    NOTES = models.CharField(max_length=255, default="Notes can be added here.")

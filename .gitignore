@@ -11,6 +11,8 @@ __pycache__/
 # C extensions
 *.so
 
+# For when I rename a file to make it work
+*.old
 # Distribution / packaging
 .Python
 build/
