@@ -22,6 +22,8 @@ from laptops101 import views
 router = DefaultRouter()
 router.register('end-users', views.EndUserViewSet)
 router.register('manufacturers', views.ManufacturerViewSet)
+router.register('item-archetypes', views.ItemArchetypeViewSet)
+router.register('laptops', views.LaptopViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
