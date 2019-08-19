@@ -20,7 +20,7 @@ from rest_framework.routers import DefaultRouter
 from laptops101 import views
 
 router = DefaultRouter()
-router.register('end-users', views.EndUserViewSet, base_name='end-users')
+router.register('end-users', views.EndUserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
