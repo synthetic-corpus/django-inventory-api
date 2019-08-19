@@ -12,3 +12,8 @@ class EndUserViewSet(viewsets.ModelViewSet):
     """ Handles the updating and paths for end users """
     serializer_class = s.EndUserSerializer
     queryset = EndUser.objects.all()
+
+class ManufacturerViewSet(viewsets.ModelViewSet):
+    """ Handles CRUD for manufactuers """
+    serializer_class = s.ManufacturerSerializer
+    queryset = Manufacturer.objects.all()
