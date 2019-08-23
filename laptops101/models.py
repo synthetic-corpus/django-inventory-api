@@ -2,23 +2,29 @@
 from django.db import models
 
 class EndUser(models.Model):
-    FIRST_NAME = models.CharField(max_length=255)
-    LAST_NAME = models.CharField(max_length=255)
-    TITLE = models.CharField(max_length=255)
-    DEPARTMENT = models.CharField(max_length=255)
+
+    FIRST_NAME = models.CharField(max_length=100)
+    LAST_NAME = models.CharField(max_length=100)
+    TITLE = models.CharField(max_length=100)
+    EMAIL = models.EmailField(max_length=100, default="")
+    DEPARTMENT = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ["FIRST_NAME", "LAST_NAME"]
+        
 
 class Manufacturer(models.Model):
     """ Stores names of Manufacturers and their associated website URLs """
     
-    MANUFACTURER = models.CharField(max_length=255) # e.g. "Apple" or "Dell"
-    WEBSITE = models.CharField(max_length=255)
+    MANUFACTURER = models.CharField(max_length=100, unique=True) # e.g. "Apple" or "Dell"
+    WEBSITE = models.CharField(max_length=100)
 
 class ItemArchetype(models.Model):
     """ Static Details about an asset that will not change from item to item 
         e.g. All Dell XPS 4300 will ahve the Same SKU and Manufacturer, but 
         different Serials, Asset Tags, users etc.
     """
-    SKU = models.CharField(max_length=255)
+    SKU = models.CharField(max_length=100, unique=True)
     COMMON_NAME = models.CharField(max_length=255) # e.g. "Dell XPS"
     MANUFACTURER = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, null=True)
     NOTES = models.CharField(max_length=255)
@@ -27,13 +33,14 @@ class TaggedItem(models.Model):
     """ Information common to all Assets, but will change on each asset """
     """ Is the base class for all other items. Will not create its own table """
     
-    PURCHASE_DATE = models.DateField(auto_now=False, auto_now_add=False)
+    PURCHASE_DATE = models.DateField(auto_now=False, auto_now_add=True)
     PURCHASE_COST = models.DecimalField(max_digits=7, decimal_places=2)
     ASSIGNED_USER = models.ForeignKey(EndUser, on_delete=models.SET_NULL, null=True)
     ASSET_TAG = models.CharField(max_length=8)
 
     class Meta:
         abstract = True
+        unique_together = []
 
 class Laptop(TaggedItem):
     """ Any Laptop Computer """
