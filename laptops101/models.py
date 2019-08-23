@@ -44,3 +44,12 @@ class Laptop(TaggedItem):
     HDD = models.DecimalField(max_digits=4, decimal_places = 2) # HDD size in Terabytes
     ARCHETYPE = models.ForeignKey(ItemArchetype, on_delete=models.CASCADE,)
     NOTES = models.CharField(max_length=255, default="Notes can be added here.")
+
+class Monitor(TaggedItem):
+    """ Any monitored deployed with a laptop """
+
+    HDMI = models.BooleanField(default=True)
+    VGA = models.BooleanField(default=False)
+    DISPLAY_PORT = models.BooleanField(default=True)
+    ARCHETYPE = models.ForeignKey(ItemArchetype, on_delete=models.CASCADE,)
+    NOTES = models.CharField(max_length=255, default="Notes can be added here.")

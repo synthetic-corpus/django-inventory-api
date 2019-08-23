@@ -27,4 +27,17 @@ class LaptopSerializer(s.ModelSerializer):
 
     class Meta:
         model = m.Laptop
-        fields = ('CPU_MODEL', 'CPU_SPEED', 'RAM', 'HDD', 'ARCHETYPE', 'NOTES')
+        fields = ('CPU_MODEL', 'CPU_SPEED', 'RAM', 
+                    'HDD', 'ARCHETYPE', 'NOTES',
+                    'PURCHASE_DATE','PURCHASE_COST',
+                    'ASSIGNED_USER','ASSET_TAG')
+
+class MonitorSerializer(s.ModelSerializer):
+    """ Serializes a Monitor """
+
+    class Meta:
+        model = m.Monitor
+        fields = ('HDMI', 'VGA', 'DISPLAY_PORT', 
+                    'ARCHETYPE', 'NOTES',
+                    'PURCHASE_DATE','PURCHASE_COST',
+                    'ASSIGNED_USER','ASSET_TAG')

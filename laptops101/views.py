@@ -27,3 +27,8 @@ class LaptopViewSet(viewsets.ModelViewSet):
     """ View of all Laptops """
     serializer_class = s.LaptopSerializer
     queryset = m.Laptop.objects.all()
+
+class MonitorViewSet(viewsets.ModelViewSet):
+    """ View of all Monitors """
+    serializer_class = s.MonitorSerializer
+    queryset = m.Monitor.objects.all()

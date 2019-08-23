@@ -24,6 +24,7 @@ router.register('end-users', views.EndUserViewSet)
 router.register('manufacturers', views.ManufacturerViewSet)
 router.register('item-archetypes', views.ItemArchetypeViewSet)
 router.register('laptops', views.LaptopViewSet)
+router.register('monitors', views.MonitorViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
