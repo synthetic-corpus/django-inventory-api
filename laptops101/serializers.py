@@ -6,7 +6,7 @@ class EndUserSerializer(s.ModelSerializer):
 
     class Meta:
         model = m.EndUser
-        fields = ('FIRST_NAME', 'LAST_NAME', 'TITLE', 'DEPARTMENT')
+        fields = ('FIRST_NAME', 'LAST_NAME', 'TITLE', 'DEPARTMENT', 'EMAIL')
 
 class ManufacturerSerializer(s.ModelSerializer):
     """ Serializer for manufacturers """

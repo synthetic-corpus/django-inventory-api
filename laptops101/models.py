@@ -6,12 +6,20 @@ class EndUser(models.Model):
     FIRST_NAME = models.CharField(max_length=100)
     LAST_NAME = models.CharField(max_length=100)
     TITLE = models.CharField(max_length=100)
-    EMAIL = models.EmailField(max_length=100, default="")
+    EMAIL = models.EmailField(max_length=100, unique=True, blank=True)
     DEPARTMENT = models.CharField(max_length=100)
+
+    def save(self, *args, **kwargs):
+        """ If e-mail is blank, will auto fill. """
+        if bool(self.EMAIL) == False:
+            self.EMAIL = self.FIRST_NAME + "." + self.LAST_NAME + '@foobros.net'
+        super(EndUser, self).save(*args, **kwargs)
+
 
     class Meta:
         unique_together = ["FIRST_NAME", "LAST_NAME"]
         
+
 
 class Manufacturer(models.Model):
     """ Stores names of Manufacturers and their associated website URLs """
@@ -36,11 +44,10 @@ class TaggedItem(models.Model):
     PURCHASE_DATE = models.DateField(auto_now=False, auto_now_add=True)
     PURCHASE_COST = models.DecimalField(max_digits=7, decimal_places=2)
     ASSIGNED_USER = models.ForeignKey(EndUser, on_delete=models.SET_NULL, null=True)
-    ASSET_TAG = models.CharField(max_length=8)
+    ASSET_TAG = models.CharField(max_length=8, unique=True)
 
     class Meta:
         abstract = True
-        unique_together = []
 
 class Laptop(TaggedItem):
     """ Any Laptop Computer """
