@@ -1,9 +1,18 @@
 """ Django Specific Imports """
 from django.db import models
 
+""" customized, app specific imports """
+from laptops101 import customValidators as v
+
+
+class AssetTag(models.Model):
+    """ Maintains a list of Asset Tags for sole purpose of input validation across several tables """
+
+    ASSET_TAG = models.CharField(max_length=8, unique=True)
+
 class EndUser(models.Model):
 
-    FIRST_NAME = models.CharField(max_length=100)
+    FIRST_NAME = models.CharField(max_length=100, validators=[v.validate_test])
     LAST_NAME = models.CharField(max_length=100)
     TITLE = models.CharField(max_length=100)
     EMAIL = models.EmailField(max_length=100, unique=True, blank=True)
