@@ -12,7 +12,7 @@ class AssetTag(models.Model):
 
 class EndUser(models.Model):
 
-    FIRST_NAME = models.CharField(max_length=100, validators=[v.validate_test])
+    FIRST_NAME = models.CharField(max_length=100)
     LAST_NAME = models.CharField(max_length=100)
     TITLE = models.CharField(max_length=100)
     EMAIL = models.EmailField(max_length=100, unique=True, blank=True)
@@ -53,7 +53,13 @@ class TaggedItem(models.Model):
     PURCHASE_DATE = models.DateField(auto_now=False, auto_now_add=True)
     PURCHASE_COST = models.DecimalField(max_digits=7, decimal_places=2)
     ASSIGNED_USER = models.ForeignKey(EndUser, on_delete=models.SET_NULL, null=True)
-    ASSET_TAG = models.CharField(max_length=8, unique=True)
+    ASSET_TAG = models.CharField(max_length=8, unique=True, validators=[v.validate_test])
+
+    def recordAsset(self, tag):
+        """ Each time a tagged item is saved, its tag is saved in another table.
+            This is done for purpose of input validation. """
+        assetTag = AssetTag(ASSET_TAG = self.ASSET_TAG)
+        assetTag.save()
 
     class Meta:
         abstract = True
@@ -68,6 +74,11 @@ class Laptop(TaggedItem):
     ARCHETYPE = models.ForeignKey(ItemArchetype, on_delete=models.CASCADE,)
     NOTES = models.CharField(max_length=255, default="Notes can be added here.")
 
+    def save(self, *args, **kwargs):
+        """ Ivokes a method to copy the asset tag to the asset tag table """
+        self.recordAsset(self.ASSET_TAG)
+        super(Laptop, self).save(*args, **kwargs)
+
 class Monitor(TaggedItem):
     """ Any monitored deployed with a laptop """
 
@@ -76,3 +87,8 @@ class Monitor(TaggedItem):
     DISPLAY_PORT = models.BooleanField(default=True)
     ARCHETYPE = models.ForeignKey(ItemArchetype, on_delete=models.CASCADE,)
     NOTES = models.CharField(max_length=255, default="Notes can be added here.")
+
+    def save(self, *args, **kwargs):
+        """ Ivokes a method to copy the asset tag to the asset tag table """
+        self.recordAsset(self.ASSET_TAG)
+        super(Monitor, self).save(*args, **kwargs)
