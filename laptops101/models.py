@@ -53,7 +53,7 @@ class TaggedItem(models.Model):
     PURCHASE_DATE = models.DateField(auto_now=False, auto_now_add=True)
     PURCHASE_COST = models.DecimalField(max_digits=7, decimal_places=2)
     ASSIGNED_USER = models.ForeignKey(EndUser, on_delete=models.SET_NULL, null=True)
-    ASSET_TAG = models.CharField(max_length=8, unique=True, validators=[v.validate_test])
+    ASSET_TAG = models.CharField(max_length=8, unique=True, validators=[v.tag_available])
 
     def recordAsset(self, tag):
         """ Each time a tagged item is saved, its tag is saved in another table.
