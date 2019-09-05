@@ -1,8 +1,8 @@
-from rest_framework.views import viewsets
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
-from laptops101 import serilaizers as s
+from laptops101 import serializers as s
 from laptops101 import models as m
 
 class AssetViewSet(viewsets.ViewSet):
@@ -27,10 +27,9 @@ class AssetViewSet(viewsets.ViewSet):
         """
 
         ASSET_TAG = self.request.query_params.get('tag')
-        TABLE_INFO = self.findTable(ASSET_TAG)
 
-        laptop = m.laptop.objects.filter(ASSET_TAG=ASSET_TAG)
-        monitor = m.monitor.objects.filter(ASSET_TAG=ASSET_TAG)
+        laptop = m.Laptop.objects.filter(ASSET_TAG=ASSET_TAG)
+        monitor = m.Monitor.objects.filter(ASSET_TAG=ASSET_TAG)
 
         if laptop.exists():
             serializer = self.selectSerializer(laptop, laptop)
