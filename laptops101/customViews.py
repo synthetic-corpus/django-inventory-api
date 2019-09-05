@@ -7,15 +7,6 @@ from laptops101 import models as m
 
 class AssetViewSet(viewsets.ViewSet):
     """ View Set that will retrieve a single items by asset tags """
-
-    def findTable(ASSET_TAG):
-        """ 
-            Checks each Asset Table and determines if Asset is found
-            Returns correct PK and item type if found.
-            Returns null if nothing found.
-
-            example: return {pk: 1, type: 'monitor'}
-        """
     
     def selectSerializer(self, model, data):
         """ 
@@ -28,18 +19,6 @@ class AssetViewSet(viewsets.ViewSet):
             """ serialize as if monitor """
         else:
             return None
-    
-    def selectQuery(self, model, pk):
-        """
-            Returns the queryset from the correct model 
-            based on which table the Asset tag was found in.
-        """
-        if model == 'laptop':
-            """ Query laptop model """
-        elif model == 'monitor':
-            """ Query the monitor Model """
-        else:
-            return None
 
     def retrieve(self, request, pk=None):
         """
@@ -50,12 +29,16 @@ class AssetViewSet(viewsets.ViewSet):
         ASSET_TAG = self.request.query_params.get('tag')
         TABLE_INFO = self.findTable(ASSET_TAG)
 
-        if not TABLE_INFO:
-            """ Getting a null Response. Return a 404 Error """
-            return Response({'error': 'No Assets with tag found', 'data': ASSET_TAG}, status=status.HTTP_400_BAD_REQUEST)
-        
-        data = self.selectQuery(TABLE_INFO.model, TABLE_INFO.pk)
-        serializer = self.selectSerializer(TABLE_INFO.type, data)
+        laptop = m.laptop.objects.filter(ASSET_TAG=ASSET_TAG)
+        monitor = m.monitor.objects.filter(ASSET_TAG=ASSET_TAG)
+
+        if laptop.exists():
+            serializer = self.selectSerializer(laptop, laptop)
+        elif monitor.exists():
+            serializer = self.selectSerializer(laptop, laptop)
+        else:
+            """ Return a 404 Error """
+            return Response({'error': 'No Assets with tag found', 'data': ASSET_TAG}, status=status.HTTP_404_NOT_FOUND)
         
         if serializer:
             return Response(serializer.data)

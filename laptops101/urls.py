@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from laptops101 import views
+from laptops101 import customViews
 
 router = DefaultRouter()
 router.register('end-users', views.EndUserViewSet)
@@ -25,6 +26,7 @@ router.register('manufacturers', views.ManufacturerViewSet)
 router.register('item-archetypes', views.ItemArchetypeViewSet)
 router.register('laptops', views.LaptopViewSet)
 router.register('monitors', views.MonitorViewSet)
+router.register('assets', customViews.AssetViewSet, base_name='assets')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
