@@ -30,7 +30,7 @@ router.register('monitors', views.MonitorViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('assets/<int:tag>', customViews.AssetViewSet.as_view(), name="assets"),
+    path('assets/<str:tag>', customViews.AssetViewSet.as_view(), name="assets"),
     path('', include(router.urls))
 ]
 
