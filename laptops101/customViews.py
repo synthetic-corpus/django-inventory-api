@@ -32,9 +32,9 @@ class AssetViewSet(APIView):
         """
         if model == 'laptop':
             """ select laptop serializer. Serialize Data """
-            return s.LaptopSerializer(data)
+            return s.LaptopSerializer(data, many=True)
         elif model == 'monitor':
             """ select monitor serializer. Serialize Data """
-            return s.MonitorSerializer(data)
+            return s.MonitorSerializer(data, many=True)
         else:
             return {"data":"Data is Empty"}
