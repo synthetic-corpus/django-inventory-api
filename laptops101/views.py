@@ -1,9 +1,5 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.settings import api_settings
+
 
 from laptops101 import models as m
 from laptops101 import serializers as s
@@ -32,3 +28,4 @@ class MonitorViewSet(viewsets.ModelViewSet):
     """ View of all Monitors """
     serializer_class = s.MonitorSerializer
     queryset = m.Monitor.objects.all()
+

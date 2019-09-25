@@ -1,9 +1,9 @@
 """ Django Specific Imports """
 from django.db import models
+from django.contrib.auth.models import User
 
 """ customized, app specific imports """
 from laptops101 import customValidators as v
-
 
 class AssetTag(models.Model):
     """ Maintains a list of Asset Tags for sole purpose of input validation across several tables """

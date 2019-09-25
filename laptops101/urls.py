@@ -26,10 +26,11 @@ router.register('manufacturers', views.ManufacturerViewSet)
 router.register('item-archetypes', views.ItemArchetypeViewSet)
 router.register('laptops', views.LaptopViewSet)
 router.register('monitors', views.MonitorViewSet)
-# router.register('assets', customViews.AssetViewSet, base_name='assets')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', customViews.UserLoginApiView.as_view(), name="login"),
     path('assets/<str:tag>', customViews.AssetViewSet.as_view(), name="assets"),
     path('', include(router.urls))
 ]

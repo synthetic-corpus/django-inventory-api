@@ -1,6 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 
 from laptops101 import serializers as s
 from laptops101 import models as m
@@ -38,3 +41,8 @@ class AssetViewSet(APIView):
             return s.MonitorSerializer(data, many=True)
         else:
             return {"data":"Data is Empty"}
+
+class UserLoginApiView(ObtainAuthToken):
+    """ Handle creating user Authentation tokens """
+    """ render_classes allows it be visible in browser """
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
